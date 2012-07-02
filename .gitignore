@@ -1,0 +1,15 @@
+blib/
+pm_to_blib
+Test-Deep-Matcher-*/
+MANIFEST
+MANIFEST.bak
+README
+Makefile
+Makefile.old
+Build
+_build/
+META.*
+MYMETA.*
+cover_db/
+nytprof.out
+*.sw[po]
