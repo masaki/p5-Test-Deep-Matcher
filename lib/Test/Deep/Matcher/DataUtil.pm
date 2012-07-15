@@ -19,9 +19,11 @@ sub descend {
     return $self->{matcher}->($got);
 }
 
+sub _expectation { join ' ' => split /_/ => shift->{name} }
+
 sub diag_message {
     my ($self, $got) = @_;
-    return "Checking $got " . join(' ', split /_/, $self->{name});
+    return sprintf 'Checking %s %s' => $got, $self->_expectation;
 }
 
 sub renderGot {
@@ -30,6 +32,9 @@ sub renderGot {
     if ($self->{name} =~ /_ref/) {
         return ref($val) || '(NONREF)';
     }
+    else {
+        return defined($val) ? $val : '(undef)';
+    }
 }
 
 sub renderExp {
@@ -37,6 +42,9 @@ sub renderExp {
 
     if ($self->{name} =~ /is_(.+)_ref/) {
         return uc($1);
+    }
+    else {
+        return sprintf '(%s)' => $self->_expectation;
     }
 }
 

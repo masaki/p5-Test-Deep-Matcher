@@ -9,34 +9,67 @@ use Test::Deep::Matcher::DataUtil;
 our $VERSION = '0.01';
 $VERSION = eval $VERSION;
 
-our $DATA_UTIL_MATCHER = __PACKAGE__ . '::DataUtil';
-our @DATA_UTIL_METHOD = qw(
-    is_scalar_ref is_array_ref is_hash_ref is_code_ref is_glob_ref
-    is_value is_string is_number is_integer
+our @RefMatchers = qw(
+    is_scalar_ref
+    is_array_ref
+    is_hash_ref
+    is_code_ref
+    is_glob_ref
 );
 
-for my $name (@DATA_UTIL_METHOD) {
+for my $name (@RefMatchers) {
+    no strict 'refs';
+    *{$name} = sub { Test::Deep::Matcher::DataUtil->new($name, @_) };
+}
+
+our @PrimitiveMatchers = qw(
+    is_value
+    is_string
+    is_number
+    is_integer
+);
+
+for my $name (@PrimitiveMatchers) {
     no strict 'refs';
     *{$name} = sub { Test::Deep::Matcher::DataUtil->new($name, @_) };
 }
 
 our @EXPORT = (
-    @DATA_UTIL_METHOD,
+    @RefMatchers,
+    @PrimitiveMatchers,
 );
 
 1;
 
 =head1 NAME
 
-Test::Deep::Matcher - A module that ...
+Test::Deep::Matcher - Type check matchers for Test::Deep
 
 =head1 SYNOPSIS
 
-    use Test::Deep::Matcher;
+  use Test::More;
+  use Test::Deep;
+  use Test::Deep::Matcher;
+
+  my $got = +{
+      foo  => 'string',
+      bar  => 100,
+      baz  => [ 1, 2, 3 ],
+      quux => { foo => 'bar' },
+  };
+
+  cmp_deeply($got, +{
+      foo  => is_string,
+      bar  => is_integer,
+      baz  => is_array_ref,
+      quux => is_hash_ref,
+  });
+
+  done_testing;
 
 =head1 DESCRIPTION
 
-Test::Deep::Matcher is
+Test::Deep::Matcher is a collection of Test::Deep type check matchers.
 
 =head1 METHODS
 
