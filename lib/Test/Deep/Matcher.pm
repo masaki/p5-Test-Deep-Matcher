@@ -3,9 +3,26 @@ package Test::Deep::Matcher;
 use 5.008001;
 use strict;
 use warnings;
+use parent 'Exporter';
+use Test::Deep::Matcher::DataUtil;
 
 our $VERSION = '0.01';
 $VERSION = eval $VERSION;
+
+our $DATA_UTIL_MATCHER = __PACKAGE__ . '::DataUtil';
+our @DATA_UTIL_METHOD = qw(
+    is_scalar_ref is_array_ref is_hash_ref is_code_ref is_glob_ref
+    is_value is_string is_number is_integer
+);
+
+for my $name (@DATA_UTIL_METHOD) {
+    no strict 'refs';
+    *{$name} = sub { Test::Deep::Matcher::DataUtil->new($name, @_) };
+}
+
+our @EXPORT = (
+    @DATA_UTIL_METHOD,
+);
 
 1;
 
