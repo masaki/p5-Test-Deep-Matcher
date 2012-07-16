@@ -73,6 +73,54 @@ Test::Deep::Matcher is a collection of Test::Deep type check matchers.
 
 =head1 METHODS
 
+=head2 Reference Matchers
+
+=over 4
+
+=item is_scalar_ref
+
+Checks the value type is SCALAR reference.
+
+=item is_array_ref
+
+Checks the value type is ARRAY reference.
+
+=item is_hash_ref
+
+Checks the value type is HASH reference.
+
+=item is_code_ref
+
+Checks the value type is CODE reference.
+
+=item is_glob_ref
+
+Checks the value type is GLOB reference.
+
+=back
+
+=head2 Primitive Matchers
+
+=over 4
+
+=item is_value
+
+Checks the value is primitive, is B<not undef>.
+
+=item is_string
+
+Checks the value is string, has length.
+
+=item is_number
+
+Checks the value is number.
+
+=item is_integer
+
+Checks the value is integer, is also number.
+
+=back
+
 =head1 AUTHOR
 
 NAKAGAWA Masaki E<lt>masaki@cpan.orgE<gt>
@@ -83,5 +131,7 @@ This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =head1 SEE ALSO
+
+L<Test::Deep>, <Data::Util>
 
 =cut
