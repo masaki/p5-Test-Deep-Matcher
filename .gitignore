@@ -10,6 +10,7 @@ Build
 _build/
 META.*
 MYMETA.*
+inc/
 cover_db/
 nytprof.out
 *.sw[po]
